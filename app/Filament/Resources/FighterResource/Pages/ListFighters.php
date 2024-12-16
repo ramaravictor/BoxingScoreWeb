@@ -14,6 +14,12 @@ class ListFighters extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
+            Actions\Action::make('backToHome') // Tombol Back to Home
+                ->label('Back to Home')
+                ->url(route('home')) // Ganti 'home' dengan nama route ke halaman utama
+                ->icon('heroicon-o-arrow-left') // Ikon panah kiri
+                ->color('gray') // Warna tombol
+                ->openUrlInNewTab(false), // Tidak membuka tab baru
         ];
     }
 }

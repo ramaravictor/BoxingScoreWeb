@@ -17,7 +17,6 @@ class CreateFightersTable extends Migration
             $table->id(); // ID petarung
             $table->string('name'); // Nama petarung
             $table->text('description')->nullable();
-            //$table->boolean('available')->default(true); // Apakah petarung tersedia untuk bertarung
             $table->string('image')->nullable(); // URL atau path ke gambar petarung
             $table->string('weight_class')->nullable(); // Kelas berat petarung (opsional)
             $table->date('birthdate')->nullable(); // Tanggal lahir petarung (opsional)

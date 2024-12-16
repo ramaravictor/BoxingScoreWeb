@@ -16,4 +16,10 @@ class EditFighter extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        // Setelah data disimpan, redirect ke halaman index (List Rooms)
+        return $this->getResource()::getUrl('index');
+    }
 }

@@ -10,6 +10,6 @@ class FighterController extends Controller
     {
         $fighters = Fighter::all();
 
-        return view('fighter', compact('fighters'));
+        return view('fighter.index', compact('fighters'));
     }
 }

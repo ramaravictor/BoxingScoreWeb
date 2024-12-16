@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,14 +14,25 @@ class Room extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'image',        // Path gambar room (nullable)
-        'name',         // Nama room
-        'class',        // Kategori atau kelas room
-        'schedule',     // Jadwal pertandingan (tanggal, bulan, tahun, jam, hari)
-        'location',     // Lokasi pertandingan
-        'availability', // Status ketersediaan room
-
+        'image',
+        'name',
+        'class',
+        'schedule',
+        'location',
+        'availability',
+        'red_corner_id',
+        'blue_corner_id',
     ];
+
+    public function redCorner()
+    {
+        return $this->belongsTo(Fighter::class, 'red_corner_id');
+    }
+
+    public function blueCorner()
+    {
+        return $this->belongsTo(Fighter::class, 'blue_corner_id');
+    }
 
     //add model observer
     protected static function booted()
@@ -32,5 +44,15 @@ class Room extends Model
                 Storage::disk('public')->delete($room->image);
             }
         });
+    }
+
+    public function roundScores(): HasMany
+    {
+        return $this->hasMany(RoundScore::class);
+    }
+
+    public function finalScore()
+    {
+        return $this->hasOne(FinalScore::class);
     }
 }

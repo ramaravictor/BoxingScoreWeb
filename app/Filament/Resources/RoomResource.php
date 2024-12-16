@@ -6,6 +6,7 @@ use App\Filament\Resources\RoomResource\Pages;
 use App\Models\Room;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
@@ -45,6 +46,22 @@ class RoomResource extends Resource
                     ->required()
                     ->maxLength(255),
 
+                // Fighter Select for Red Corner
+                Select::make('red_corner_id')
+                    ->label('Red Corner Fighter')
+                    ->relationship('redCorner', 'name')
+                    ->preload()
+                    ->searchable()
+                    ->required(),
+
+                // Fighter Select for Blue Corner
+                Select::make('blue_corner_id')
+                    ->label('Blue Corner Fighter')
+                    ->relationship('blueCorner', 'name')
+                    ->preload()
+                    ->searchable()
+                    ->required(),
+
                 TextInput::make('class')
                     ->label('Class')
                     ->required()
@@ -74,6 +91,16 @@ class RoomResource extends Resource
                     ->label('Room Image')
                     ->disk('public'), TextColumn::make('id')->label('ID')->sortable(),
                 TextColumn::make('name')->label('Name')->sortable()->searchable(),
+                TextColumn::make('redCorner.name')
+                    ->label('Red Corner')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('blueCorner.name')
+                    ->label('Blue Corner')
+                    ->sortable()
+                    ->searchable(),
+
                 TextColumn::make('class')->label('Class')->sortable()->searchable(),
                 TextColumn::make('schedule')
                     ->label('Schedule')

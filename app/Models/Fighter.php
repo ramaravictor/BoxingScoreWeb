@@ -9,7 +9,16 @@ class Fighter extends Model
 {
     use HasFactory;
 
+    protected $table = 'fighters';
+
     protected $fillable = [
-        'name', 'description', 'price', 'available', 'image',
+        'name',
+        'description',
+        'image',
+        'weight_class',
+        'birthdate',
+        'wins',
+        'losses',
+        'draws',
     ];
 }

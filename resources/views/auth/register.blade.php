@@ -20,13 +20,13 @@
 
         <!-- Role Selection -->
         <div class="mt-4">
-            <x-input-label for="is_admin" :value="__('Role')" />
-            <select id="is_admin" name="is_admin"
+            <x-input-label for="is_dewanjuri" :value="__('Role')" />
+            <select id="is_dewanjuri" name="is_dewanjuri"
                 class="block w-full mt-1 text-white bg-gray-100 rounded-md shadow-sm dark:bg-gray-900 focus:ring-indigo-500 focus:ring-opacity-50">
                 <option value="0" selected>{{ __('Juri') }}</option>
                 <option value="1">{{ __('Dewan Juri') }}</option>
             </select>
-            <x-input-error :messages="$errors->get('is_admin')" class="mt-2" />
+            <x-input-error :messages="$errors->get('is_dewanjuri')" class="mt-2" />
         </div>
 
         <!-- Password -->

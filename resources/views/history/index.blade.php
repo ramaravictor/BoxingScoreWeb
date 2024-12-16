@@ -50,10 +50,10 @@
 
 
                 <!-- List of Events -->
-                <!-- Desktop View -->
                 <div class="hidden px-4 py-6 space-y-6 md:block">
                     @foreach ($rooms as $room)
-                        <div class="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden h-[200px]">
+                        <div
+                            class="flex flex-col md:flex-row bg-white border border-slate-950 shadow-md overflow-hidden h-[200px]">
                             <!-- Image Section -->
                             <div class="w-full h-full md:w-1/4">
                                 <img src="{{ $room->image ? asset('storage/' . $room->image) : asset('default-image.jpg') }}"
@@ -77,16 +77,17 @@
 
                             <!-- Actions Section -->
                             <div class="flex flex-col items-center justify-center p-6 space-y-4">
-                                <a href="{{ route('rooms.show', $room->id) }}"
+                                <a href="{{ route('finalscore.show', $room->id) . '#final-score' }}"
                                     class="px-4 py-2 text-sm font-semibold text-center text-white uppercase transition border border-slate-950 bg-slate-950 hover:bg-white hover:text-slate-950 w-36">
                                     View Score
                                 </a>
-                                @can('dewanjuri')
-                                    <a href="{{ route('rooms.show', $room->id) }}"
+
+                                {{-- @can('dewanjuri')
+                                    <a href="{{ route('finalscore.edit', $room->finalScore->id) }}"
                                         class="px-4 py-2 text-sm font-semibold text-center text-white uppercase transition border border-slate-950 bg-slate-950 hover:bg-white hover:text-slate-950 w-36">
                                         Edit Results
                                     </a>
-                                @endcan
+                                @endcan --}}
 
                             </div>
                         </div>

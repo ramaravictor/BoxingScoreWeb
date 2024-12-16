@@ -20,6 +20,18 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'is_dewanjuri' => false, // Role sebagai Juri
         ]);
+        User::create([
+            'name' => 'Juri B',
+            'email' => 'jurib@example.com',
+            'password' => Hash::make('password'),
+            'is_dewanjuri' => false, // Role sebagai Juri
+        ]);
+        User::create([
+            'name' => 'Juri C',
+            'email' => 'juric@example.com',
+            'password' => Hash::make('password'),
+            'is_dewanjuri' => false, // Role sebagai Juri
+        ]);
 
         // Data Dewan Juri
         User::create([

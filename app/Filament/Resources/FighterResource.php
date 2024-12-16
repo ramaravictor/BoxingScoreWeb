@@ -4,9 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\FighterResource\Pages;
 use App\Models\Fighter;
+use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class FighterResource extends Resource
@@ -23,7 +27,39 @@ class FighterResource extends Resource
     {
         return $form
             ->schema([
-                //
+                FileUpload::make('image')
+                    ->label('Fighter Image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('images/fighters')
+                    ->visibility('public')
+                    ->preserveFilenames(),
+                Forms\Components\TextInput::make('name')
+                    ->label('Name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Textarea::make('description')
+                    ->label('Description')
+                    ->required(),
+                Forms\Components\TextInput::make('weight_class')
+                    ->label('Weight Class')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\DatePicker::make('birthdate')
+                    ->label('Birthdate')
+                    ->required(),
+                Forms\Components\TextInput::make('wins')
+                    ->label('Wins')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('losses')
+                    ->label('Losses')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('draws')
+                    ->label('Draws')
+                    ->required()
+                    ->numeric(),
             ]);
     }
 
@@ -31,13 +67,39 @@ class FighterResource extends Resource
     {
         return $table
             ->columns([
-                //
+                ImageColumn::make('image')
+                    ->label('Fighter Image')
+                    ->disk('public'), TextColumn::make('id')->label('ID')->sortable(),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Name')
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('weight_class')
+                    ->label('Weight Class')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('birthdate')
+                    ->label('Birthdate')
+                    ->date(),
+                Tables\Columns\TextColumn::make('wins')
+                    ->label('Wins')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('losses')
+                    ->label('Losses')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('draws')
+                    ->label('Draws')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Created At')
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->filters([
-                //
+
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

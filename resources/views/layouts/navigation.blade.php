@@ -5,15 +5,32 @@
     <div class="flex items-center justify-between h-16 mx-auto max-w-7xl">
         <!-- Navigation Links -->
         <div class="hidden space-x-10 sm:flex">
-            <x-nav-link :href="route('home')" :active="request()->routeIs('home')" class="text-white hover:text-gray-300">
-                {{ __('Events') }}
+            {{-- <x-nav-link :href="route('home')" :active="request()->routeIs('home')" class="text-white hover:text-gray-300">
+                {{ __('Home') }}
+            </x-nav-link> --}}
+            <x-nav-link href="{{ route('home') }}" :class="request()->routeIs('home') && !str_contains(request()->fullUrl(), '#match-room')
+                ? 'active nav-link'
+                : 'nav-link'">
+                {{ __('Home') }}
             </x-nav-link>
-            <x-nav-link :href="route('fighter')" :active="request()->routeIs('fighter')" class="text-lg text-white hover:text-gray-300">
+
+            <x-nav-link :href="route('home') . '#match-room'" :class="request()->fullUrlIs(route('home') . '#match-room') ||
+            request()->routeIs('rooms.show') ||
+            request()->is('rooms/*/calculate-scores')
+                ? 'active nav-link'
+                : 'nav-link'">
+                {{ __('Rooms') }}
+            </x-nav-link>
+
+            <x-nav-link :href="route('fighter.index')" :active="request()->routeIs('fighter.index')" class="text-lg text-white hover:text-gray-300">
                 {{ __('Fighters') }}
             </x-nav-link>
-            <x-nav-link :href="route('history')" :active="request()->routeIs('history')" class="text-lg text-white hover:text-gray-300">
+
+
+            <x-nav-link :href="route('history.index')" :active="request()->routeIs('history.index') || request()->routeIs('finalscore.*')" class="text-lg text-white hover:text-gray-300">
                 {{ __('History') }}
             </x-nav-link>
+
         </div>
 
         <!-- Logo -->
@@ -83,13 +100,16 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="mt-5 sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')" class="text-lg text-white">
+            <x-responsive-nav-link :href="route('home')" :active="request()->fullUrl() === route('home')" class="text-lg text-white">
                 {{ __('Home') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('fighter')" :active="request()->routeIs('fighter')" class="text-lg text-white">
+            <x-responsive-nav-link :href="route('home') . '#match-room'" :active="request()->fullUrl() === route('home') . '#match-room'" class="text-lg text-white">
+                {{ __('Rooms') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('fighter.index')" :active="request()->routeIs('fighter.index')" class="text-lg text-white">
                 {{ __('Fighter') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('history')" :active="request()->routeIs('history')" class="text-lg text-white">
+            <x-responsive-nav-link :href="route('history.index')" :active="request()->routeIs('history')" class="text-lg text-white">
                 {{ __('History') }}
             </x-responsive-nav-link>
         </div>

@@ -1,6 +1,38 @@
 <x-app-layout>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentUrl = window.location.href;
+            const roomsLink = document.querySelector("a[href='{{ route('home') }}#match-room']");
+            const homeLink = document.querySelector("a[href='{{ route('home') }}']");
+
+            // Function to update active state
+            function updateActiveLink() {
+                if (window.location.hash === "#match-room") {
+                    roomsLink.classList.add("active");
+                    homeLink.classList.remove("active");
+                } else {
+                    roomsLink.classList.remove("active");
+                    homeLink.classList.add("active");
+                }
+            }
+
+            // Initial check on page load
+            updateActiveLink();
+
+            // Listen for hash change (URL fragment changes)
+            window.addEventListener("hashchange", updateActiveLink);
+
+            // Listen for click event on Rooms link
+            roomsLink.addEventListener("click", function() {
+                roomsLink.classList.add("active");
+                homeLink.classList.remove("active");
+            });
+        });
+    </script>
+
+
     <x-slot name="header">
-        <section class="relative flex w-full h-screen " style="opacity: 1;">
+        <section id="header" class="relative flex w-full h-screen " style="opacity: 1;">
             <div class="relative w-full ">
                 <img src="img/wallpaper3.jpg" class="object-cover w-full h-screen brightness-50">
                 <!-- Adjust brightness-50 to your desired darkness level (0-100) -->
@@ -12,7 +44,7 @@
                     </div>
                     <div style="opacity: 1;">
                         <p
-                            class="mt-4 text-xs font-normal leading-relaxed tracking-wider text-center text-white md:text-xl lg:max-w-lg">
+                            class="mt-4 text-xl font-normal leading-relaxed tracking-wider text-center text-white md:text-xl lg:max-w-lg">
                             Your Dreams Start Here.
                         </p>
                     </div>
@@ -33,7 +65,7 @@
 
     <main class="relative overflow-hidden">
         {{-- CARD ROOM --}}
-        <section class="py-6 bg-white lg:px-32 lg:py-16">
+        <section id="match-room" class="py-6 bg-white lg:px-32 lg:py-16">
             <div class="relative isolate">
                 <div class="absolute inset-x-0 overflow-hidden -top-40 -z-10 transform-gpu blur-3xl sm:-top-80"
                     aria-hidden="true">
@@ -48,23 +80,24 @@
                             CREATE ROOMS
                         </a>
 
-                        <a href="{{ route('history') }}"
+                        <a href="{{ route('history.index') }}"
                             class="px-8 py-3 text-sm font-bold text-white uppercase transition duration-300 border bg-slate-950 border-slate-950 hover:bg-white hover:text-slate-950">
                             VIEW HISTORYS
                         </a>
                     </div>
                 @endcan
+
+
                 <div class="flex flex-col p-5 main-container aos-init aos-animate lg:mb-12" data-aos="fade-up">
-                    <text
-                        class="text-3xl font-bold tracking-wider text-center uppercase text-slate-950 lg:text-7xl">UPCOMING
-                        MATCH</text>
+                    <text class="text-3xl font-bold tracking-wider text-center uppercase text-slate-950 lg:text-7xl">
+                        MATCH ROOM</text>
                 </div>
 
                 <div class="container flex flex-col items-center gap-10 p-5 mx-auto font-bold uppercase lg:flex-row">
                     @foreach ($rooms as $room)
                         <div class="relative flex-1">
                             <div style="opacity: 1;">
-                                <img src="{{ Storage::url($room->image) }}"
+                                <img src="{{ $room->image ? asset('storage/' . $room->image) : asset('default-image.jpg') }}"
                                     class="w-full aspect-[3/4] md:aspect-[4/3] brightness-50 object-cover">
                                 <div class="absolute bottom-0 left-0 right-0 p-4 md:p-8">
                                     <p class="text-2xl tracking-wider text-white md:text-3xl">{{ $room->name }}</p>
@@ -75,7 +108,7 @@
                                     </p>
 
                                     <div class="flex pt-3">
-                                        <a href="{{ route('rooms.show', $room->id) }}"
+                                        <a href="{{ route('rooms.show', $room->id) . '#round-score' }}"
                                             class="px-4 py-2 transition duration-300 ease-in-out bg-white border border-white text-slate-950 hover:bg-slate-950 hover:text-white">
                                             GO TO EVENT
                                         </a>
