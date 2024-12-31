@@ -7,6 +7,10 @@ use App\Models\Fighter;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
@@ -99,6 +103,7 @@ class FighterResource extends Resource
 
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -106,6 +111,55 @@ class FighterResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                // Bagian untuk gambar di atas
+                Section::make('Fighter Image')
+                    ->schema([
+                        ImageEntry::make('image')
+                            ->label('') // Hilangkan label gambar
+                            ->extraAttributes([
+                                'class' => 'rounded-lg shadow-lg mx-auto', // Tambahkan shadow dan pusatkan
+                            ])
+                            ->size('250px'), // Ukuran gambar
+                    ])
+                    ->columns(2), // Kolom penuh untuk gambar
+
+                // Bagian untuk detail lainnya
+                Section::make('Fighter Details')
+                    ->schema([
+                        TextEntry::make('name')
+                            ->label('Name :')
+                            ->extraAttributes(['class' => 'text-xl font-bold text-gray-900']) // Label lebih besar
+                            ->formatStateUsing(fn ($state) => "<span class='font-normal text-gray-400 text-md'>{$state}</span>") // Atribut lebih kecil
+                            ->html(), // Izinkan HTML untuk pemformatan atribut
+
+                        TextEntry::make('weight_class')
+                            ->label('Weight Class :')
+                            ->extraAttributes(['class' => 'text-xl font-bold text-gray-900']) // Label lebih besar
+                            ->formatStateUsing(fn ($state) => "<span class='font-normal text-gray-400 text-md'>{$state}</span>")
+                            ->html(),
+
+                        // Champions Titles sebagai list HTML
+                        TextEntry::make('champions')
+                            ->label('Champions Titles :')
+                            ->extraAttributes(['class' => 'text-xl font-bold text-gray-900']) // Label lebih besar
+                            ->formatStateUsing(fn ($state) => '<ol style="list-style: decimal; margin-left: 20px;" class="font-normal text-gray-400 text-md">'.implode('', array_map(fn ($item) => "<li>{$item}</li>", explode(';', $state))).'</ol>')
+                            ->html(),
+
+                        TextEntry::make('birthdate')
+                            ->label('Birthdate :')
+                            ->extraAttributes(['class' => 'text-xl font-bold text-gray-900']) // Label lebih besar
+                            ->formatStateUsing(fn ($state) => "<span class='font-normal text-gray-400 text-md'>{$state}</span>")
+                            ->html(),
+                    ])
+                    ->columns(2), // Atur menjadi dua kolom
+
             ]);
     }
 
@@ -122,6 +176,7 @@ class FighterResource extends Resource
             'index' => Pages\ListFighters::route('/'),
             'create' => Pages\CreateFighter::route('/create'),
             'edit' => Pages\EditFighter::route('/{record}/edit'),
+            'view' => Pages\ViewFighter::route('/{record}'),
         ];
     }
 }

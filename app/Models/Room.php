@@ -14,14 +14,13 @@ class Room extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'image',
         'name',
-        'class',
-        'schedule',
-        'location',
-        'availability',
+        'weight_class',
         'red_corner_id',
         'blue_corner_id',
+        'schedule',
+        'availability',
+        'image',
     ];
 
     public function redCorner()
@@ -32,6 +31,13 @@ class Room extends Model
     public function blueCorner()
     {
         return $this->belongsTo(Fighter::class, 'blue_corner_id');
+    }
+
+    // Relasi untuk mengambil weight_class dari fighter
+    public function allWeightClasses()
+    {
+        // Mengambil semua weight_class dari model Fighter
+        return Fighter::pluck('weight_class')->unique()->toArray();
     }
 
     //add model observer
