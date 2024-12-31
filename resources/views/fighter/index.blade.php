@@ -66,36 +66,33 @@
                             <text class="text-xl text-gray-700 uppercase">fighter</text>
                             <text class="py-3 text-2xl md:text-7xl text-slate-950">{{ $fighter->name }}</text>
                             <div class="w-24 h-0.5 bg-black lg:mt-3"></div>
-                            <p class="py-3 text-2xl font-semibold tracking-wider text-gray-700 lg:py-5 md:text-3xl">
-                                {{ $fighter->description }}
-                            </p>
 
-                            <div
-                                class="hidden py-3 tracking-wide lg:py-1 description text-textSecondary text-md md:block">
+                            <!-- Weight Class Section -->
+                            <div class="py-2 text-lg font-medium text-gray-600">
                                 <p>{{ $fighter->weight_class }}</p>
                             </div>
 
-                            <div class="flex flex-row flex-wrap mt-2 space-x-4 text-xl text-slate-950 md:mt-4">
-                                <div class="flex items-center space-x-2 text-green-500">
-                                    <p>WIN: {{ $fighter->wins }}</p>
-                                </div>
-                                <div class="flex items-center space-x-2 text-gray-500">
-                                    <p>DRAW: {{ $fighter->draws }}</p>
-                                </div>
-                                <div class="flex items-center space-x-2 text-red-500">
-                                    <p>LOSE: {{ $fighter->losses }}</p>
-                                </div>
+                            <!-- Champions Titles Section -->
+                            <div class="mt-4 text-lg">
+                                <p class="font-semibold text-gray-800">Champions Titles:</p>
+                                <ul class="space-y-1 text-gray-600 list-disc list-inside">
+                                    @php
+                                        // Pisahkan data champions menjadi array
+                                        $champions = explode(';', $fighter->champions);
+                                    @endphp
+                                    @foreach ($champions as $title)
+                                        <li>{{ trim($title) }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
 
-                            <div class="flex flex-row justify-between lg:mt-8">
 
+
+                            <div class="flex flex-row justify-between lg:mt-8">
                                 <a href="{{ route('filament.admin.resources.fighters.edit', ['record' => $fighter->id]) }}"
-                                    class="px-4 py-2 border border-black rounded-md text-slate-950 hover:text-white hover:bg-slate-900"
-                                    target="_blank">
+                                    class="px-4 py-2 border border-black text-slate-950 hover:text-white hover:bg-slate-900">
                                     EDIT FIGHTER
                                 </a>
-
-
                             </div>
                         </div>
                     </div>

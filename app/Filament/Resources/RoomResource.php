@@ -34,15 +34,14 @@ class RoomResource extends Resource
     {
         return $form
             ->schema([
-                FileUpload::make('image')
-                    ->label('Room Image')
-                    ->image()
-                    ->disk('public')
-                    ->directory('images/rooms')
-                    ->visibility('public')
-                    ->preserveFilenames(),
+
                 TextInput::make('name')
                     ->label('Room Name')
+                    ->required()
+                    ->maxLength(255),
+
+                TextInput::make('weight_class')
+                    ->label('Weight Class')
                     ->required()
                     ->maxLength(255),
 
@@ -62,24 +61,22 @@ class RoomResource extends Resource
                     ->searchable()
                     ->required(),
 
-                TextInput::make('class')
-                    ->label('Class')
-                    ->required()
-                    ->maxLength(255),
-
                 DateTimePicker::make('schedule')
                     ->label('Schedule')
                     ->required()
                     ->withoutSeconds(), // Menghilangkan detik jika tidak diperlukan
 
-                TextInput::make('location')
-                    ->label('Location')
-                    ->required()
-                    ->maxLength(255),
-
                 Toggle::make('availability')
                     ->label('Availability')
                     ->default(true),
+
+                FileUpload::make('image')
+                    ->label('Room Image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('images/rooms')
+                    ->visibility('public')
+                    ->preserveFilenames(),
             ])->columns(2);
     }
 
@@ -87,9 +84,10 @@ class RoomResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('id')->label('ID')->sortable(),
                 ImageColumn::make('image')
                     ->label('Room Image')
-                    ->disk('public'), TextColumn::make('id')->label('ID')->sortable(),
+                    ->disk('public'),
                 TextColumn::make('name')->label('Name')->sortable()->searchable(),
                 TextColumn::make('redCorner.name')
                     ->label('Red Corner')
@@ -101,11 +99,11 @@ class RoomResource extends Resource
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('class')->label('Class')->sortable()->searchable(),
+                TextColumn::make('weight_class')->label('Weight Class')->sortable()->searchable(),
                 TextColumn::make('schedule')
                     ->label('Schedule')
                     ->dateTime('d-m-Y H:i'), // Format tanggal dan waktu
-                TextColumn::make('location')->label('Location')->sortable()->searchable(),
+
                 BooleanColumn::make('availability')
                     ->label('Available')
                     ->trueIcon('heroicon-s-check-circle')

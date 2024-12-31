@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('rooms', function (Blueprint $table) {
             $table->id(); // Primary Key
-            $table->string('image')->nullable(); // Gambar Room
             $table->string('name'); // Nama Room
-            $table->string('class'); // Kategori/Kelas
+            $table->string('weight_class'); // Kategori/Kelas
             $table->dateTime('schedule'); // Jadwal
-            $table->string('location'); // Lokasi
             $table->boolean('availability')->default(true); // Ketersediaan
+            $table->string('image')->nullable(); // Gambar Room
 
             // Foreign Key ke Tabel Fighters
             $table->foreignId('red_corner_id')

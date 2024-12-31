@@ -16,31 +16,25 @@ class RoomSeeder extends Seeder
         // Ambil dua fighter sebagai contoh
         $redCornerFighter = Fighter::firstOrCreate([
             'name' => 'Manny Pacquiao',
-            'description' => 'A world champion in multiple weight classes.',
-            'weight_class' => 'Welterweight',
             'birthdate' => '1978-12-17',
-            'wins' => 62,
-            'losses' => 7,
-            'draws' => 2,
+            'weight_class' => 'Welterweight',
+            'champions' => 'The only octuple champion',
         ]);
 
         $blueCornerFighter = Fighter::firstOrCreate([
             'name' => 'Floyd Mayweather',
-            'description' => 'Known for his undefeated record.',
-            'weight_class' => 'Welterweight',
             'birthdate' => '1977-02-24',
-            'wins' => 50,
-            'losses' => 0,
-            'draws' => 0,
+            'weight_class' => 'Welterweight',
+            'champions' => 'Fifteen world titles and the lineal championship in four different weight classes, bronze medal in the featherweight division at the 1996 Olympics, U.S. Golden Gloves titles (at light flyweight, flyweight, and featherweight)',
+
         ]);
 
         // Insert Rooms
         Room::insert([
             [
                 'name' => 'Pacquiao vs Mayweather',
-                'class' => '65 kg',
+                'weight_class' => '65 kg',
                 'schedule' => '2024-12-10 14:00:00',
-                'location' => 'Jakarta, Indonesia',
                 'availability' => true,
                 'red_corner_id' => $redCornerFighter->id,
                 'blue_corner_id' => $blueCornerFighter->id,
@@ -49,27 +43,21 @@ class RoomSeeder extends Seeder
             ],
             [
                 'name' => 'Tyson vs Jake Paul',
-                'class' => '75 kg',
-                'schedule' => '2024-12-15 10:00:00',
-                'location' => 'New York, USA',
+                'wight_class' => '75 kg',
+                'schedule' => '2025-03-07 14:00:00',
                 'availability' => true,
                 'red_corner_id' => Fighter::firstOrCreate([
                     'name' => 'Mike Tyson',
-                    'description' => 'One of the greatest heavyweights of all time.',
-                    'weight_class' => 'Heavyweight',
                     'birthdate' => '1966-06-30',
-                    'wins' => 50,
-                    'losses' => 6,
-                    'draws' => 0,
+                    'weight_class' => 'Heavyweight',
+                    'champions' => 'World heavyweight champion, Youngest heavyweight champion, Lineal champion, Notable victories',
+
                 ])->id,
                 'blue_corner_id' => Fighter::firstOrCreate([
                     'name' => 'Jake Paul',
-                    'description' => 'Upcoming boxing sensation.',
                     'weight_class' => 'Cruiserweight',
                     'birthdate' => '1997-01-17',
-                    'wins' => 8,
-                    'losses' => 1,
-                    'draws' => 0,
+                    'champions' => 'As a pro, he has gone 10-1 with seven knockouts against opponents that include a YouTuber, a retired NBA player and four MMA fighters',
                 ])->id,
                 'created_at' => now(),
                 'updated_at' => now(),

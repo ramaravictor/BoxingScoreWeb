@@ -16,13 +16,10 @@ class CreateFightersTable extends Migration
         Schema::create('fighters', function (Blueprint $table) {
             $table->id(); // ID petarung
             $table->string('name'); // Nama petarung
-            $table->text('description')->nullable();
-            $table->string('image')->nullable(); // URL atau path ke gambar petarung
-            $table->string('weight_class')->nullable(); // Kelas berat petarung (opsional)
             $table->date('birthdate')->nullable(); // Tanggal lahir petarung (opsional)
-            $table->integer('wins')->default(0); // Jumlah kemenangan
-            $table->integer('losses')->default(0); // Jumlah kekalahan
-            $table->integer('draws')->default(0); // Jumlah seri
+            $table->string('weight_class')->nullable(); // Kelas berat petarung (opsional)
+            $table->string('champions')->nullable(); // tittle kejuaraan
+            $table->string('image')->nullable(); // URL atau path ke gambar petarung
             $table->timestamps(); // Timestamps created_at dan updated_at
         });
     }
