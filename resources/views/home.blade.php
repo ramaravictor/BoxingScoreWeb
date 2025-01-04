@@ -93,7 +93,7 @@
                         MATCH ROOM</text>
                 </div>
 
-                <div class="container flex flex-col items-center gap-10 p-5 mx-auto font-bold uppercase lg:flex-row">
+                <div class="container grid grid-cols-1 gap-10 p-5 mx-auto font-bold uppercase lg:grid-cols-2">
                     @foreach ($rooms as $room)
                         <div class="relative flex-1">
                             <div style="opacity: 1;">
@@ -113,12 +113,12 @@
                                             GO TO EVENT
                                         </a>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
+
 
                 <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
                     aria-hidden="true">

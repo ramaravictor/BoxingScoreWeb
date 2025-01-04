@@ -27,18 +27,23 @@
             <div class="absolute bottom-0 left-0 right-0 z-30">
                 <div class="flex flex-col items-center justify-center">
                     <div class="flex justify-center mb-12 space-x-7">
-                        @can('dewanjuri')
-                            <a href="{{ route('round-scores.calculate', ['room_id' => $room->id]) . '#final-desicion' }}"
-                                class="px-8 py-3 text-sm font-bold uppercase transition duration-300 bg-white border text-slate-950 border-slate-950 hover:bg-slate-950 hover:text-white">
-                                CALCULATE SCORE
+                        @if ($finalScoreExists)
+                            <!-- Tombol View Result -->
+                            <a href="{{ route('finalscore.show', $room->id) . '#final-score' }}"
+                                class="px-8 py-3 text-sm font-bold uppercase transition duration-300 bg-white border border-slate-950 text-slate-950 hover:bg-slate-950 hover:text-white">
+                                VIEW RESULT
                             </a>
-                        @endcan
-
-                        <a href="{{ route('finalscore.show', $room->id) . '#final-score' }}"
-                            class="px-8 py-3 text-sm font-bold uppercase transition duration-300 bg-white border border-slate-950 text-slate-950 hover:bg-slate-950 hover:text-white">
-                            VIEW RESULT
-                        </a>
+                        @else
+                            <!-- Tombol Calculate Score -->
+                            @can('dewanjuri')
+                                <a href="{{ route('round-scores.calculate', ['room_id' => $room->id]) . '#final-desicion' }}"
+                                    class="px-8 py-3 text-sm font-bold uppercase transition duration-300 bg-white border text-slate-950 border-slate-950 hover:bg-slate-950 hover:text-white">
+                                    CALCULATE SCORE
+                                </a>
+                            @endcan
+                        @endif
                     </div>
+
                     <p class="text-sm tracking-widest text-white font-lora">SCROLL TO DISCOVER</p>
                     <div class="w-0.5 h-16 lg:h-24 mt-4">
                         <div style="height: 100%;">

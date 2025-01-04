@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FinalScore;
 use App\Models\Room;
 use Carbon\Carbon;
 
@@ -14,6 +15,9 @@ class RoomController extends Controller
             ->timezone('Asia/Jakarta') // Menyesuaikan zona waktu WIB
             ->translatedFormat('D, M j / g:i A').' WIB';
 
-        return view('rooms', compact('room'));
+        // Cek apakah ada final score untuk room ini
+        $finalScoreExists = FinalScore::where('room_id', $id)->exists();
+
+        return view('rooms', compact('room', 'finalScoreExists'));
     }
 }

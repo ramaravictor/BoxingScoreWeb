@@ -49,8 +49,10 @@ class FinalScoreController extends Controller
             'score_ave_blue' => $request->input('score_ave_blue'),
         ]);
 
-        // Redirect dengan Pesan Sukses
-        return redirect()->back()->with('success', 'Final Decision submitted successfully!');
+        // Redirect ke halaman finalscore/{room_id}#final-score
+        $url = route('finalscore.show', ['room_id' => $request->input('room_id')]).'#final-score';
+
+        return redirect($url)->with('success', 'Final Decision submitted successfully!');
     }
 
     public function edit($id)

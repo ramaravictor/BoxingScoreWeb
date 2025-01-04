@@ -10,8 +10,8 @@
                         <p class="text-5xl font-bold tracking-wider text-center text-white uppercase lg:text-7xl">
                             {{ $room->name }}
                         </p>
-                        <p class="mt-4 text-xl text-white">
-                            {{ $room->class }}
+                        <p class="mt-12 text-xl text-white">
+                            {{ $room->weight_class }}
                         </p>
                         <p class="mt-4 text-xl text-white">
                             {{ $room->schedule }}

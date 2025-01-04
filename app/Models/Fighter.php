@@ -13,12 +13,9 @@ class Fighter extends Model
 
     protected $fillable = [
         'name',
-        'description',
-        'image',
-        'weight_class',
         'birthdate',
-        'wins',
-        'losses',
-        'draws',
+        'weight_class',
+        'champions',
+        'image',
     ];
 }
