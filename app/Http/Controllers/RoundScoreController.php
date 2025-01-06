@@ -12,34 +12,40 @@ class RoundScoreController extends Controller
 {
     public function store(Request $request)
     {
-        // Validasi input
-        $request->validate([
-            'room_id' => 'required|exists:rooms,id',
-            'scores.*.damage_red' => 'required|integer|min:0|max:10',
-            'scores.*.damage_blue' => 'required|integer|min:0|max:10',
-            'scores.*.knock_red' => 'required|integer|min:0|max:10',
-            'scores.*.knock_blue' => 'required|integer|min:0|max:10',
-            'scores.*.penalty_red' => 'required|integer|min:0|max:10',
-            'scores.*.penalty_blue' => 'required|integer|min:0|max:10',
-            'scores.*.total_red' => 'required|numeric',
-            'scores.*.total_blue' => 'required|numeric',
-        ]);
-
-        // Simpan setiap skor ke database
         foreach ($request->scores as $round => $score) {
-            RoundScore::create([
-                'room_id' => $request->room_id,
-                'user_id' => Auth::id(), // Tambahkan user_id dari juri yang sedang login
-                'round_number' => $round,
-                'damage_red' => $score['damage_red'],
-                'damage_blue' => $score['damage_blue'],
-                'knock_red' => $score['knock_red'],
-                'knock_blue' => $score['knock_blue'],
-                'penalty_red' => $score['penalty_red'],
-                'penalty_blue' => $score['penalty_blue'],
-                'total_red' => $score['total_red'],
-                'total_blue' => $score['total_blue'],
-            ]);
+            $existingScore = RoundScore::where('room_id', $request->room_id)
+                ->where('user_id', Auth::id())
+                ->where('round_number', $round)
+                ->first();
+
+            if ($existingScore) {
+                // Update data jika sudah ada
+                $existingScore->update([
+                    'damage_red' => $score['damage_red'],
+                    'damage_blue' => $score['damage_blue'],
+                    'knock_red' => $score['knock_red'],
+                    'knock_blue' => $score['knock_blue'],
+                    'penalty_red' => $score['penalty_red'],
+                    'penalty_blue' => $score['penalty_blue'],
+                    'total_red' => $score['total_red'],
+                    'total_blue' => $score['total_blue'],
+                ]);
+            } else {
+                // Buat data baru jika belum ada
+                RoundScore::create([
+                    'room_id' => $request->room_id,
+                    'user_id' => Auth::id(),
+                    'round_number' => $round,
+                    'damage_red' => $score['damage_red'],
+                    'damage_blue' => $score['damage_blue'],
+                    'knock_red' => $score['knock_red'],
+                    'knock_blue' => $score['knock_blue'],
+                    'penalty_red' => $score['penalty_red'],
+                    'penalty_blue' => $score['penalty_blue'],
+                    'total_red' => $score['total_red'],
+                    'total_blue' => $score['total_blue'],
+                ]);
+            }
         }
 
         return redirect()->back()->with('success', 'Scores saved successfully!');
@@ -47,18 +53,33 @@ class RoundScoreController extends Controller
 
     public function showRoundScores($room_id)
     {
-        $room = Room::findOrFail($room_id); // Ambil room berdasarkan ID
-        $roundScores = RoundScore::where('room_id', $room_id)
-            ->with('user')
-            ->get();
+        $room = Room::findOrFail($room_id);
+        $userId = Auth::id(); // Ambil ID juri yang login
 
-        $judges = User::whereIn('id', $roundScores->pluck('user_id'))->get();
+        // Ambil data round scores sesuai room_id dan user_id
+        $roundScores = RoundScore::where('room_id', $room_id)
+            ->where('user_id', $userId)
+            ->get()
+            ->keyBy('round_number'); // Kelompokkan berdasarkan round_number
+
+        // Siapkan skor default jika data tidak ditemukan
+        $defaultScores = [];
+        for ($round = 1; $round <= 5; $round++) {
+            $defaultScores[$round] = [
+                'damage_red' => $roundScores[$round]->damage_red ?? 0,
+                'damage_blue' => $roundScores[$round]->damage_blue ?? 0,
+                'knock_red' => $roundScores[$round]->knock_red ?? 0,
+                'knock_blue' => $roundScores[$round]->knock_blue ?? 0,
+                'penalty_red' => $roundScores[$round]->penalty_red ?? 0,
+                'penalty_blue' => $roundScores[$round]->penalty_blue ?? 0,
+                'total_red' => $roundScores[$round]->total_red ?? 0,
+                'total_blue' => $roundScores[$round]->total_blue ?? 0,
+            ];
+        }
 
         return view('calculatescore', [
-            'room' => $room,           // Kirim data room ke view
-            'roundScores' => $roundScores,
-            'judges' => $judges,
-            'room_id' => $room_id,
+            'room' => $room,
+            'roundScores' => $defaultScores, // Kirim skor ke view
         ]);
     }
 

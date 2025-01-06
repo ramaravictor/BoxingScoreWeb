@@ -66,6 +66,14 @@
                         </text>
                     </div>
 
+                    @if (session('success'))
+                        <div id="success-message"
+                            class="p-4 mb-4 text-green-700 bg-green-100 border border-green-400 rounded-md">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+
                     <!-- Scrollable Table Container -->
                     <div class="overflow-x-auto">
                         <form id="scoreForm" method="POST" action="{{ route('round-scores.store') }}">
@@ -98,49 +106,53 @@
                                             <td class="px-4 py-2 border">Round {{ $round }}</td>
                                             <td class="px-4 py-2 border">
                                                 <input type="number" name="scores[{{ $round }}][damage_red]"
-                                                    value="0" min="0" max="10"
-                                                    class="w-full text-center damage-red">
+                                                    value="{{ $roundScores[$round]['damage_red'] ?? 0 }}" min="0"
+                                                    max="10" class="w-full text-center damage-red">
                                             </td>
                                             <td class="px-4 py-2 border">
                                                 <input type="number" name="scores[{{ $round }}][damage_blue]"
-                                                    value="0" min="0" max="10"
-                                                    class="w-full text-center damage-blue">
+                                                    value="{{ $roundScores[$round]['damage_blue'] ?? 0 }}" min="0"
+                                                    max="10" class="w-full text-center damage-blue">
                                             </td>
                                             <td class="px-4 py-2 border">
                                                 <input type="number" name="scores[{{ $round }}][knock_red]"
-                                                    value="0" min="0" max="10"
-                                                    class="w-full text-center knock-red">
+                                                    value="{{ $roundScores[$round]['knock_red'] ?? 0 }}" min="0"
+                                                    max="10" class="w-full text-center knock-red">
                                             </td>
                                             <td class="px-4 py-2 border">
                                                 <input type="number" name="scores[{{ $round }}][knock_blue]"
-                                                    value="0" min="0" max="10"
-                                                    class="w-full text-center knock-blue">
+                                                    value="{{ $roundScores[$round]['knock_blue'] ?? 0 }}" min="0"
+                                                    max="10" class="w-full text-center knock-blue">
                                             </td>
                                             <td class="px-4 py-2 border">
                                                 <input type="number" name="scores[{{ $round }}][penalty_red]"
-                                                    value="0" min="0" max="10"
-                                                    class="w-full text-center penalty-red">
+                                                    value="{{ $roundScores[$round]['penalty_red'] ?? 0 }}" min="0"
+                                                    max="10" class="w-full text-center penalty-red">
                                             </td>
                                             <td class="px-4 py-2 border">
                                                 <input type="number" name="scores[{{ $round }}][penalty_blue]"
-                                                    value="0" min="0" max="10"
-                                                    class="w-full text-center penalty-blue">
+                                                    value="{{ $roundScores[$round]['penalty_blue'] ?? 0 }}" min="0"
+                                                    max="10" class="w-full text-center penalty-blue">
                                             </td>
                                             <td class="px-4 py-2 text-white bg-red-500 border result-red">
-                                                <span class="total-red">0</span>
+                                                <span
+                                                    class="total-red">{{ $roundScores[$round]['total_red'] ?? 0 }}</span>
                                                 <input type="hidden" name="scores[{{ $round }}][total_red]"
-                                                    class="hidden-total-red" value="0">
+                                                    class="hidden-total-red"
+                                                    value="{{ $roundScores[$round]['total_red'] ?? 0 }}">
                                             </td>
                                             <td class="px-4 py-2 text-white bg-blue-500 border result-blue">
-                                                <span class="total-blue">0</span>
+                                                <span
+                                                    class="total-blue">{{ $roundScores[$round]['total_blue'] ?? 0 }}</span>
                                                 <input type="hidden" name="scores[{{ $round }}][total_blue]"
-                                                    class="hidden-total-blue" value="0">
+                                                    class="hidden-total-blue"
+                                                    value="{{ $roundScores[$round]['total_blue'] ?? 0 }}">
                                             </td>
-                                            <input type="hidden" name="scores[{{ $round }}][round_number]"
-                                                value="{{ $round }}">
                                         </tr>
                                     @endfor
+
                                 </tbody>
+
                             </table>
                             <!-- Submit Button -->
                             <div class="flex justify-center mt-8">
