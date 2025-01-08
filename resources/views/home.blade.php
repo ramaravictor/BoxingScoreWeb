@@ -97,8 +97,18 @@
                     @foreach ($rooms as $room)
                         <div class="relative flex-1">
                             <div style="opacity: 1;">
-                                <img src="{{ $room->image ? asset('storage/' . $room->image) : asset('default-image.jpg') }}"
-                                    class="w-full aspect-[3/4] md:aspect-[4/3] brightness-50 object-cover">
+                                <div class="grid grid-cols-2 gap-0">
+                                    <!-- Fighter Red Corner Image -->
+                                    <div class="relative">
+                                        <img src="{{ $room->redCorner->image ? asset('storage/' . $room->redCorner->image) : asset('default-red.jpg') }}"
+                                            class="w-full aspect-[3/4] brightness-50 object-cover">
+                                    </div>
+                                    <!-- Fighter Blue Corner Image -->
+                                    <div class="relative">
+                                        <img src="{{ $room->blueCorner->image ? asset('storage/' . $room->blueCorner->image) : asset('default-blue.jpg') }}"
+                                            class="w-full aspect-[3/4] brightness-50 object-cover">
+                                    </div>
+                                </div>
                                 <div class="absolute bottom-0 left-0 right-0 p-4 md:p-8">
                                     <p class="text-2xl tracking-wider text-white md:text-3xl">{{ $room->name }}</p>
                                     <p class="text-2xl tracking-wider text-white md:text-xl">{{ $room->class }}</p>
@@ -109,10 +119,11 @@
 
                                     <div class="flex pt-3">
                                         <a href="{{ route('rooms.show', $room->id) . '#round-score' }}"
-                                            class="px-4 py-2 transition duration-300 ease-in-out bg-white border border-white text-slate-950 hover:bg-slate-950 hover:text-white">
+                                            class="px-4 py-2 text-sm transition duration-300 ease-in-out bg-white border border-slate-950 hover:border-white text-slate-950 hover:bg-slate-950 hover:text-white">
                                             GO TO EVENT
                                         </a>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

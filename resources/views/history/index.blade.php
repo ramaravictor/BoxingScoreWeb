@@ -55,13 +55,34 @@
                         <div
                             class="flex flex-col md:flex-row bg-white border border-slate-950 shadow-md overflow-hidden h-[200px]">
                             <!-- Image Section -->
-                            <div class="w-full h-full md:w-1/4">
-                                <img src="{{ $room->image ? asset('storage/' . $room->image) : asset('default-image.jpg') }}"
-                                    alt="{{ $room->name }}" class="object-cover w-full h-full">
+                            <div class="grid w-full h-full grid-cols-2 md:w-1/4">
+                                <!-- Red Corner Fighter Image -->
+                                <div class="relative">
+                                    <img src="{{ $room->redCorner->image ? asset('storage/' . $room->redCorner->image) : asset('default-red.jpg') }}"
+                                        alt="{{ $room->redCorner->name ?? 'Unknown Fighter' }}"
+                                        class="object-cover w-full h-full">
+                                    <div class="absolute bottom-0 left-0 right-0 p-2 text-center bg-red-900/70">
+                                        <p class="text-xs font-semibold text-white uppercase">Red Corner</p>
+                                        <p class="text-sm text-white">{{ $room->redCorner->name ?? 'Unknown Fighter' }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Blue Corner Fighter Image -->
+                                <div class="relative">
+                                    <img src="{{ $room->blueCorner->image ? asset('storage/' . $room->blueCorner->image) : asset('default-blue.jpg') }}"
+                                        alt="{{ $room->blueCorner->name ?? 'Unknown Fighter' }}"
+                                        class="object-cover w-full h-full">
+                                    <div class="absolute bottom-0 left-0 right-0 p-2 text-center bg-blue-900/70">
+                                        <p class="text-xs font-semibold text-white uppercase">Blue Corner</p>
+                                        <p class="text-sm text-white">{{ $room->blueCorner->name ?? 'Unknown Fighter' }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Details Section -->
-                            <div class="flex flex-col justify-between flex-1 p-6">
+                            <div class="flex flex-col justify-between flex-1 p-6 uppercase text-bold">
                                 <div>
                                     <h2 class="text-2xl font-bold text-gray-800">{{ $room->name }}</h2>
                                     <p class="mt-1 text-sm text-gray-600">
@@ -70,9 +91,8 @@
                                         </span>
                                         | {{ $room->location }}
                                     </p>
-                                    <p class="mt-3 text-gray-700">{{ $room->class }}</p>
                                 </div>
-                                <p class="text-sm text-gray-600">{{ $room->weight ?? 'N/A' }} kg</p>
+                                <p class="text-sm text-gray-600">{{ $room->weight_class ?? 'N/A' }}</p>
                             </div>
 
                             <!-- Actions Section -->

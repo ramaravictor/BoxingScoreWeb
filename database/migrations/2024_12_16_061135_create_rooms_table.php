@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('weight_class'); // Kategori/Kelas
             $table->dateTime('schedule'); // Jadwal
             $table->boolean('availability')->default(true); // Ketersediaan
-            $table->string('image')->nullable(); // Gambar Room
+            // $table->string('image')->nullable(); // Gambar Room
 
             // Foreign Key ke Tabel Fighters
             $table->foreignId('red_corner_id')

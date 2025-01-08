@@ -2,8 +2,11 @@
     <x-slot name="header">
         <section class="relative flex w-full h-screen " style="opacity: 1;">
             <div class="relative w-full ">
-                <img src="{{ $room->image ? asset('storage/' . $room->image) : asset('default-image.jpg') }}"
-                    class="object-cover w-full h-screen brightness-50">
+                <img src="{{ $room->redCorner->image ? asset('storage/' . $room->redCorner->image) : asset('default-red.jpg') }}"
+                    class="absolute inset-y-0 left-0 object-cover w-1/2 h-full brightness-50">
+                <img src="{{ $room->blueCorner->image ? asset('storage/' . $room->blueCorner->image) : asset('default-blue.jpg') }}"
+                    class="absolute inset-y-0 right-0 object-cover w-1/2 h-full brightness-50">
+
                 <!-- Adjust brightness-50 to your desired darkness level (0-100) -->
                 <div
                     class="absolute top-0 left-0 right-0 flex flex-col items-center justify-center px-8 mt-24 bottom-20 lg:px-32">
@@ -30,7 +33,7 @@
                         @if ($finalScoreExists)
                             <!-- Tombol View Result -->
                             <a href="{{ route('finalscore.show', $room->id) . '#final-score' }}"
-                                class="px-8 py-3 text-sm font-bold uppercase transition duration-300 bg-white border border-slate-950 text-slate-950 hover:bg-slate-950 hover:text-white">
+                                class="px-8 py-3 text-sm font-bold uppercase transition duration-300 bg-white border border-slate-950 text-slate-950 hover:bg-slate-950 hover:border-white hover:text-white">
                                 VIEW RESULT
                             </a>
                         @else
@@ -131,8 +134,9 @@
                                             </td>
                                             <td class="px-4 py-2 border">
                                                 <input type="number" name="scores[{{ $round }}][penalty_blue]"
-                                                    value="{{ $roundScores[$round]['penalty_blue'] ?? 0 }}" min="0"
-                                                    max="10" class="w-full text-center penalty-blue">
+                                                    value="{{ $roundScores[$round]['penalty_blue'] ?? 0 }}"
+                                                    min="0" max="10"
+                                                    class="w-full text-center penalty-blue">
                                             </td>
                                             <td class="px-4 py-2 text-white bg-red-500 border result-red">
                                                 <span

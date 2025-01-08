@@ -3,18 +3,18 @@
         <section class="relative flex w-full h-screen " style="opacity: 1;">
             <div class="relative w-full ">
                 @if (isset($room))
-                    <img src="{{ $room->image ? asset('storage/' . $room->image) : asset('default-image.jpg') }}"
-                        class="object-cover w-full h-screen brightness-50">
+                    <img src="{{ $room->redCorner->image ? asset('storage/' . $room->redCorner->image) : asset('default-red.jpg') }}"
+                        class="absolute inset-y-0 left-0 object-cover w-1/2 h-full brightness-50">
+                    <img src="{{ $room->blueCorner->image ? asset('storage/' . $room->blueCorner->image) : asset('default-blue.jpg') }}"
+                        class="absolute inset-y-0 right-0 object-cover w-1/2 h-full brightness-50">
+
                     <div
                         class="absolute top-0 left-0 right-0 flex flex-col items-center justify-center px-8 mt-24 bottom-20 lg:px-32">
                         <p class="text-5xl font-bold tracking-wider text-center text-white uppercase lg:text-7xl">
                             {{ $room->name }}
                         </p>
-                        <p class="mt-12 text-xl text-white">
+                        <p class="mt-12 text-xl text-white uppercase">
                             {{ $room->weight_class }}
-                        </p>
-                        <p class="mt-4 text-xl text-white">
-                            {{ $room->schedule }}
                         </p>
                     </div>
                 @else
@@ -66,7 +66,7 @@
                             <!-- Winner RED: Label di kiri -->
                             <div class="flex items-center">
                                 <span
-                                    class="px-2 py-1 text-xs font-bold text-white uppercase bg-red-500 rounded">WIN</span>
+                                    class="px-2 py-1 text-sm font-bold text-white uppercase bg-red-500 rounded lg:text-xl">WIN</span>
                             </div>
                             <div class="flex-1 text-center">
                                 <h3 class="text-lg font-bold text-white uppercase">{{ $room->class }}</h3>
@@ -78,7 +78,7 @@
                             </div>
                             <div class="items-center flex-2">
                                 <span
-                                    class="px-2 py-1 text-xs font-bold text-white uppercase bg-blue-500 rounded">WIN</span>
+                                    class="px-2 py-1 text-sm font-bold text-white uppercase bg-blue-500 rounded lg:text-xl">WIN</span>
                             </div>
                         @endif
                     </div>
@@ -87,54 +87,93 @@
                     <div class="grid items-center grid-cols-3 gap-4 px-8 py-6 text-center">
                         <!-- Red Fighter -->
                         <div class="flex flex-col items-center space-y-4">
-                            <img src="{{ $room->redCorner->image ? asset('storage/' . $room->redCorner->image) : asset('default-image.jpg') }}"
-                                alt="Blue Fighter" class="object-cover w-40 h-40 rounded-full">
-                            <p class="text-4xl font-bold text-red-500 uppercase">
-                                {{ $room->redCorner->name ?? 'BLUE FIGHTER' }}
-                            </p>
-                            {{-- <p class="mt-2 text-sm font-semibold text-gray-600 uppercase">
-                                    <span class="inline-block w-2 h-2 mr-1 bg-blue-500 rounded-full"></span>Country
-                                </p> --}}
+                            <div class="relative">
+                                <img src="{{ $room->redCorner->image ? asset('storage/' . $room->redCorner->image) : asset('default-red.jpg') }}"
+                                    alt="{{ $room->redCorner->name ?? 'Unknown Fighter' }}"
+                                    class="object-cover w-full h-full">
+                                <div
+                                    class="absolute bottom-0 left-0 right-0 hidden p-2 text-center sm:block bg-red-900/70">
+                                    <p class="text-xs font-semibold text-white uppercase">Red Corner</p>
+                                    <p class="text-xs font-bold text-white uppercase lg:text-4xl">
+                                        {{ $room->redCorner->name ?? 'Unknown Fighter' }}
+                                    </p>
+                                </div>
+                                <p class="text-sm font-bold text-red-500 uppercase lg:hidden">
+                                    {{ $room->redCorner->name ?? 'RED FIGHTER' }}
+                                </p>
+                            </div>
                         </div>
 
-                        <!-- Match Info -->
+                        <!-- Match Info Desktop View-->
                         <div class="flex flex-col justify-center">
-                            <p class="text-4xl font-bold text-gray-800">VS</p>
-                            <div class="grid grid-cols-3 gap-4 mt-4 text-center text-gray-600">
+                            <p class="font-bold text-slate-950 text-7xl">VS</p>
+                            <div class="hidden grid-cols-3 gap-4 mt-4 text-center text-gray-600 sm:grid">
                                 <!-- Round -->
                                 <div>
                                     <p class="text-sm font-semibold uppercase">ROUND</p>
-                                    <p class="text-2xl font-bold text-gray-800">{{ $finalScore->round }}</p>
+                                    <p class="text-2xl font-bold text-slate-950">{{ $finalScore->round }}</p>
                                 </div>
                                 <!-- Winner -->
                                 <div>
                                     <p class="text-sm font-semibold uppercase">WINNER</p>
-                                    <p class="text-2xl font-bold text-gray-800">
+                                    <p class="text-2xl font-bold text-slate-950">
                                         {{ strtoupper($finalScore->winner) }}
                                     </p>
                                 </div>
                                 <!-- Method -->
                                 <div>
                                     <p class="text-sm font-semibold uppercase">METHOD</p>
-                                    <p class="text-2xl font-bold text-gray-800 uppercase">
+                                    <p class="text-2xl font-bold uppercase text-slate-950">
                                         {{ ucfirst(str_replace('_', ' ', $finalScore->method)) }}
                                     </p>
                                 </div>
                             </div>
+
                         </div>
 
                         <!-- Blue Fighter -->
                         <div class="flex flex-col items-center space-y-4">
-                            <img src="{{ $room->blueCorner->image ? asset('storage/' . $room->blueCorner->image) : asset('default-image.jpg') }}"
-                                alt="Blue Fighter" class="object-cover w-40 h-40 rounded-full">
-                            <p class="text-4xl font-bold text-blue-500 uppercase">
-                                {{ $room->blueCorner->name ?? 'BLUE FIGHTER' }}
-                            </p>
-                            {{-- <p class="mt-2 text-sm font-semibold text-gray-600 uppercase">
-                                    <span class="inline-block w-2 h-2 mr-1 bg-blue-500 rounded-full"></span>Country
-                                </p> --}}
+                            <!-- Blue Corner Fighter Image -->
+                            <div class="relative">
+                                <img src="{{ $room->blueCorner->image ? asset('storage/' . $room->blueCorner->image) : asset('default-blue.jpg') }}"
+                                    alt="{{ $room->blueCorner->name ?? 'Unknown Fighter' }}"
+                                    class="object-cover w-full h-full">
+                                <div
+                                    class="absolute bottom-0 left-0 right-0 hidden p-2 text-center sm:block bg-blue-900/70">
+                                    <p class="text-xs font-bold text-white uppercase">Blue Corner</p>
+                                    <p class="text-xs font-bold text-white uppercase lg:text-4xl">
+                                        {{ $room->blueCorner->name ?? 'Unknown Fighter' }}
+                                    </p>
+                                </div>
+                                <p class="text-sm font-bold text-blue-500 uppercase lg:hidden">
+                                    {{ $room->blueCorner->name ?? 'BLUE FIGHTER' }}
+                                </p>
+
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Match Info Mobile View -->
+                    <div class="flex flex-col justify-center pt-4 border-t border-gray-300 lg:hidden">
+                        <div class="grid grid-cols-3 gap-1 mb-3 text-center">
+                            <div>
+                                <p class="text-xs font-semibold text-gray-500 uppercase">Round</p>
+                                <p class="text-sm font-bold text-slate-950">{{ $finalScore->round }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-500 uppercase">winner</p>
+                                <p class="text-sm font-bold uppercase text-slate-950">{{ $finalScore->winner }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-500 uppercase">Method</p>
+                                <p class="text-sm font-bold uppercase text-slate-950">
+                                    {{ ucfirst(str_replace('_', ' ', $finalScore->method)) }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
 
                 <!-- Gradient Footer Background -->

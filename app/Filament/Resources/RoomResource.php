@@ -90,13 +90,13 @@ class RoomResource extends Resource
                     ->label('Availability')
                     ->default(true),
 
-                FileUpload::make('image')
-                    ->label('Room Image')
-                    ->image()
-                    ->disk('public')
-                    ->directory('images/rooms')
-                    ->visibility('public')
-                    ->preserveFilenames(),
+                // FileUpload::make('image')
+                //     ->label('Room Image')
+                //     ->image()
+                //     ->disk('public')
+                //     ->directory('images/rooms')
+                //     ->visibility('public')
+                //     ->preserveFilenames(),
             ])->columns(2);
     }
 
@@ -105,9 +105,9 @@ class RoomResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->label('ID')->sortable(),
-                ImageColumn::make('image')
-                    ->label('Room Image')
-                    ->disk('public'),
+                // ImageColumn::make('image')
+                //     ->label('Room Image')
+                //     ->disk('public'),
                 TextColumn::make('name')->label('Name')->sortable()->searchable(),
                 TextColumn::make('redCorner.name')
                     ->label('Red Corner')
@@ -148,15 +148,15 @@ class RoomResource extends Resource
         return $infolist
             ->schema([
                 // Bagian untuk gambar di atas
-                Section::make('Room Image')
-                    ->schema([
-                        ImageEntry::make('image')
-                            ->label('') // Hilangkan label gambar
-                            ->extraAttributes([
-                                'class' => 'rounded-lg shadow-lg w-full', // Gambar ukuran penuh
-                            ]),
-                    ])
-                    ->columns(2), // Kolom penuh untuk gambar
+                // Section::make('Room Image')
+                //     ->schema([
+                //         ImageEntry::make('image')
+                //             ->label('') // Hilangkan label gambar
+                //             ->extraAttributes([
+                //                 'class' => 'rounded-lg shadow-lg w-full', // Gambar ukuran penuh
+                //             ]),
+                //     ])
+                //     ->columns(2), // Kolom penuh untuk gambar
 
                 // Bagian untuk detail Room
                 Section::make('Room Details')

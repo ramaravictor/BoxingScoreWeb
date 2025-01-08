@@ -68,7 +68,7 @@
                             <div class="w-24 h-0.5 bg-black lg:mt-3"></div>
 
                             <!-- Weight Class Section -->
-                            <div class="py-2 text-lg font-medium text-gray-600">
+                            <div class="py-2 text-lg font-medium text-gray-600 uppercase">
                                 <p>{{ $fighter->weight_class }}</p>
                             </div>
 
@@ -87,11 +87,10 @@
                             </div>
 
 
-
-                            <div class="flex flex-row justify-between lg:mt-8">
+                            <div class="flex flex-row justify-between mt-3 lg:mt-8">
                                 <a href="{{ route('filament.admin.resources.fighters.edit', ['record' => $fighter->id]) }}"
-                                    class="px-4 py-2 border border-black text-slate-950 hover:text-white hover:bg-slate-900">
-                                    EDIT FIGHTER
+                                    class="px-4 py-3 text-sm font-bold uppercase transition duration-300 bg-white border text-slate-950 border-slate-950 hover:border-white hover:bg-slate-950 hover:text-white">
+                                    edit fighter
                                 </a>
                             </div>
                         </div>

@@ -1,29 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <!-- Session Success Message -->
-        @if (session('success'))
-            <div id="session-message"
-                class="absolute top-0 left-0 right-0 z-50 p-4 text-center text-green-700 bg-green-100 rounded-lg shadow-lg">
-                {{ session('success') }}
-            </div>
-            <script>
-                // Hilangkan session message setelah 5 detik
-                setTimeout(() => {
-                    const sessionMessage = document.getElementById('session-message');
-                    if (sessionMessage) {
-                        sessionMessage.style.transition = 'opacity 1s ease';
-                        sessionMessage.style.opacity = '0';
-                        setTimeout(() => sessionMessage.remove(), 1000); // Hapus elemen setelah animasi
-                    }
-                }, 5000);
-            </script>
-        @endif
-
         <!-- Header Section -->
         <section class="relative flex w-full h-screen" style="opacity: 1;">
             <div class="relative w-full">
-                <img src="{{ $room->image ? asset('storage/' . $room->image) : asset('default-image.jpg') }}"
-                    class="object-cover w-full h-screen brightness-50">
+                <img src="{{ $room->redCorner->image ? asset('storage/' . $room->redCorner->image) : asset('default-red.jpg') }}"
+                    class="absolute inset-y-0 left-0 object-cover w-1/2 h-full brightness-50">
+                <img src="{{ $room->blueCorner->image ? asset('storage/' . $room->blueCorner->image) : asset('default-blue.jpg') }}"
+                    class="absolute inset-y-0 right-0 object-cover w-1/2 h-full brightness-50">
+
                 <!-- Adjust brightness-50 to your desired darkness level (0-100) -->
                 <div
                     class="absolute top-0 left-0 right-0 flex flex-col items-center justify-center px-8 mt-24 bottom-20 lg:px-32">
@@ -50,7 +34,24 @@
 
 
 
-
+    <!-- Session Success Message -->
+    @if (session('success'))
+        <div id="session-message"
+            class="absolute top-0 left-0 right-0 z-50 p-4 text-center text-green-700 bg-green-100 rounded-lg shadow-lg">
+            {{ session('success') }}
+        </div>
+        <script>
+            // Hilangkan session message setelah 5 detik
+            setTimeout(() => {
+                const sessionMessage = document.getElementById('session-message');
+                if (sessionMessage) {
+                    sessionMessage.style.transition = 'opacity 1s ease';
+                    sessionMessage.style.opacity = '0';
+                    setTimeout(() => sessionMessage.remove(), 1000); // Hapus elemen setelah animasi
+                }
+            }, 5000);
+        </script>
+    @endif
 
     <section id="final-desicion" class="py-6 lg:px-32 lg:mt-16">
         <div class="flex flex-col p-5 main-container aos-init aos-animate lg:mb-16" data-aos="fade-up">
