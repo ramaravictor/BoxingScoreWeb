@@ -88,11 +88,19 @@
 
 
                             <div class="flex flex-row justify-between mt-3 lg:mt-8">
-                                <a href="{{ route('filament.admin.resources.fighters.edit', ['record' => $fighter->id]) }}"
-                                    class="px-4 py-3 text-sm font-bold uppercase transition duration-300 bg-white border text-slate-950 border-slate-950 hover:border-white hover:bg-slate-950 hover:text-white">
-                                    edit fighter
-                                </a>
+                                @auth
+                                    @can('dewanjuri')
+                                        <!-- Hanya pengguna dengan role 'dewanjuri' -->
+                                        <a href="{{ route('filament.admin.resources.fighters.edit', ['record' => $fighter->id]) }}"
+                                            class="px-4 py-3 text-sm font-bold uppercase transition duration-300 bg-white border text-slate-950 border-slate-950 hover:border-white hover:bg-slate-950 hover:text-white">
+                                            Edit Fighter
+                                        </a>
+                                    @endcan
+                                @else
+                                    <!-- Tidak tampil jika belum login -->
+                                @endauth
                             </div>
+
                         </div>
                     </div>
                 @endforeach

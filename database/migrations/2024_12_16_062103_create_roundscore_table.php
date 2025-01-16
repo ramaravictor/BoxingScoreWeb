@@ -16,14 +16,16 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('room_id')->constrained()->onDelete('cascade');
             $table->integer('round_number');
-            $table->integer('damage_red')->default(0);
-            $table->integer('damage_blue')->default(0);
-            $table->integer('knock_red')->default(0);
-            $table->integer('knock_blue')->default(0);
-            $table->integer('penalty_red')->default(0);
-            $table->integer('penalty_blue')->default(0);
-            $table->decimal('total_red', 5, 2)->default(0);
-            $table->decimal('total_blue', 5, 2)->default(0);
+            $table->integer('red_point')->default(0);
+            $table->integer('red_kd')->default(0);
+            $table->integer('red_damage')->default(0);
+            $table->integer('red_foul')->default(0);
+            $table->decimal('red_score', 5, 2)->default(0);
+            $table->integer('blue_point')->default(0);
+            $table->integer('blue_kd')->default(0);
+            $table->integer('blue_damage')->default(0);
+            $table->integer('blue_foul')->default(0);
+            $table->decimal('blue_score', 5, 2)->default(0);
             $table->timestamps();
         });
     }
@@ -33,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('finalscore');
+        Schema::dropIfExists('round_scores');
     }
 };

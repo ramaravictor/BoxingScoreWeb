@@ -11,14 +11,16 @@ class RoundScore extends Model
         'room_id',
         'user_id',
         'round_number',
-        'damage_red',
-        'knock_red',
-        'penalty_red',
-        'total_red',
-        'damage_blue',
-        'knock_blue',
-        'penalty_blue',
-        'total_blue',
+        'red_point',
+        'blue_point',
+        'red_kd',
+        'blue_kd',
+        'red_damage',
+        'blue_damage',
+        'red_foul',
+        'blue_foul',
+        'red_score', // Ditambahkan di sini
+        'blue_score', // Ditambahkan di sini
     ];
 
     /**

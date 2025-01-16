@@ -83,92 +83,122 @@
                             @csrf
                             <input type="hidden" name="room_id" value="{{ $room->id }}">
 
-                            <table class="w-full text-center border-collapse min-w-[700px]" id="scoreTable">
-                                <thead>
-                                    <tr class="bg-gray-100">
-                                        <th rowspan="2" class="px-4 py-2 border">Round</th>
-                                        <th colspan="2" class="px-4 py-2 border">Damage</th>
-                                        <th colspan="2" class="px-4 py-2 border">Knock Down</th>
-                                        <th colspan="2" class="px-4 py-2 border">Penalty</th>
-                                        <th colspan="2" class="px-4 py-2 border">Total Score</th>
+                            <table class="min-w-full text-center border border-collapse border-gray-200" id="scoreTable">
+                                <thead class="bg-gray-100">
+                                    <tr>
+                                        <th colspan="5"
+                                            class="p-4 text-lg font-bold uppercase border-b border-gray-300 text-slate-950">
+                                            {{ $room->redCorner->name ?? 'Red Fighter' }}
+                                        </th>
+                                        <th class="p-4 text-lg font-bold uppercase border-b border-gray-300 text-slate-950">
+                                            Round</th>
+                                        <th colspan="6"
+                                            class="p-4 text-lg font-bold uppercase border-b border-gray-300 text-slate-950">
+                                            {{ $room->blueCorner->name ?? 'Blue Fighter' }}
+                                        </th>
                                     </tr>
-                                    <tr class="bg-gray-100">
-                                        <th class="px-4 py-2 text-red-500 border">Red</th>
-                                        <th class="px-4 py-2 text-blue-500 border">Blue</th>
-                                        <th class="px-4 py-2 text-red-500 border">Red</th>
-                                        <th class="px-4 py-2 text-blue-500 border">Blue</th>
-                                        <th class="px-4 py-2 text-red-500 border">Red</th>
-                                        <th class="px-4 py-2 text-blue-500 border">Blue</th>
-                                        <th class="px-4 py-2 text-red-500 border">Red</th>
-                                        <th class="px-4 py-2 text-blue-500 border">Blue</th>
+                                    <tr class="text-sm font-bold text-gray-600 uppercase">
+                                        <th class="p-2 border border-gray-300">Point</th>
+                                        <th class="p-2 border border-gray-300">Knock Down</th>
+                                        <th class="p-2 border border-gray-300">Damage</th>
+                                        <th class="p-2 border border-gray-300">Foul</th>
+                                        <th class="p-2 border border-gray-300">Score</th>
+                                        <th class="p-2 border border-gray-300">#</th>
+                                        <th class="p-2 border border-gray-300">Point</th>
+                                        <th class="p-2 border border-gray-300">Knock Down</th>
+                                        <th class="p-2 border border-gray-300">Damage</th>
+                                        <th class="p-2 border border-gray-300">Foul</th>
+                                        <th class="p-2 border border-gray-300">Score</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="divide-y divide-gray-200">
                                     @for ($round = 1; $round <= 5; $round++)
                                         <tr>
-                                            <td class="px-4 py-2 border">Round {{ $round }}</td>
-                                            <td class="px-4 py-2 border">
-                                                <input type="number" name="scores[{{ $round }}][damage_red]"
-                                                    value="{{ $roundScores[$round]['damage_red'] ?? 0 }}" min="0"
-                                                    max="10" class="w-full text-center damage-red">
+                                            <!-- Red Corner Columns -->
+                                            <td class="p-3">
+                                                <input type="number" name="scores[{{ $round }}][red_point]"
+                                                    value="{{ $roundScores[$round]['red_point'] ?? 0 }}" min="0"
+                                                    max="100"
+                                                    class="w-full px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 red-point">
                                             </td>
-                                            <td class="px-4 py-2 border">
-                                                <input type="number" name="scores[{{ $round }}][damage_blue]"
-                                                    value="{{ $roundScores[$round]['damage_blue'] ?? 0 }}" min="0"
-                                                    max="10" class="w-full text-center damage-blue">
+                                            <td class="p-3">
+                                                <input type="number" name="scores[{{ $round }}][red_kd]"
+                                                    value="{{ $roundScores[$round]['red_kd'] ?? 0 }}" min="0"
+                                                    max="100"
+                                                    class="w-full px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 red-kd">
                                             </td>
-                                            <td class="px-4 py-2 border">
-                                                <input type="number" name="scores[{{ $round }}][knock_red]"
-                                                    value="{{ $roundScores[$round]['knock_red'] ?? 0 }}" min="0"
-                                                    max="10" class="w-full text-center knock-red">
+                                            <td class="p-3">
+                                                <input type="number" name="scores[{{ $round }}][red_damage]"
+                                                    value="{{ $roundScores[$round]['red_damage'] ?? 0 }}" min="0"
+                                                    max="100"
+                                                    class="w-full px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 red-damage">
                                             </td>
-                                            <td class="px-4 py-2 border">
-                                                <input type="number" name="scores[{{ $round }}][knock_blue]"
-                                                    value="{{ $roundScores[$round]['knock_blue'] ?? 0 }}" min="0"
-                                                    max="10" class="w-full text-center knock-blue">
+                                            <td class="p-3">
+                                                <input type="number" name="scores[{{ $round }}][red_foul]"
+                                                    value="{{ $roundScores[$round]['red_foul'] ?? 0 }}" min="0"
+                                                    max="3"
+                                                    class="w-full px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-red-500 red-foul">
                                             </td>
-                                            <td class="px-4 py-2 border">
-                                                <input type="number" name="scores[{{ $round }}][penalty_red]"
-                                                    value="{{ $roundScores[$round]['penalty_red'] ?? 0 }}" min="0"
-                                                    max="10" class="w-full text-center penalty-red">
+                                            <td class="p-3 font-bold text-red-500">
+                                                <span class="red-score">{{ $roundScores[$round]['red_score'] ?? 0 }}</span>
+                                                <input type="hidden" name="scores[{{ $round }}][red_score]"
+                                                    value="{{ $roundScores[$round]['red_score'] ?? 0 }}"
+                                                    class="hidden-red-score">
                                             </td>
-                                            <td class="px-4 py-2 border">
-                                                <input type="number" name="scores[{{ $round }}][penalty_blue]"
-                                                    value="{{ $roundScores[$round]['penalty_blue'] ?? 0 }}"
-                                                    min="0" max="10"
-                                                    class="w-full text-center penalty-blue">
+
+                                            <!-- Round Number -->
+                                            <td class="p-3 text-xl font-bold border border-gray-300 text-slate-950">
+                                                {{ $round }}</td>
+
+                                            <!-- Blue Corner Columns -->
+                                            <td class="p-3">
+                                                <input type="number" name="scores[{{ $round }}][blue_point]"
+                                                    value="{{ $roundScores[$round]['blue_point'] ?? 0 }}" min="0"
+                                                    max="100"
+                                                    class="w-full px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 blue-point">
                                             </td>
-                                            <td class="px-4 py-2 text-white bg-red-500 border result-red">
+                                            <td class="p-3">
+                                                <input type="number" name="scores[{{ $round }}][blue_kd]"
+                                                    value="{{ $roundScores[$round]['blue_kd'] ?? 0 }}" min="0"
+                                                    max="100"
+                                                    class="w-full px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 blue-kd">
+                                            </td>
+                                            <td class="p-3">
+                                                <input type="number" name="scores[{{ $round }}][blue_damage]"
+                                                    value="{{ $roundScores[$round]['blue_damage'] ?? 0 }}" min="0"
+                                                    max="100"
+                                                    class="w-full px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 blue-damage">
+                                            </td>
+                                            <td class="p-3">
+                                                <input type="number" name="scores[{{ $round }}][blue_foul]"
+                                                    value="{{ $roundScores[$round]['blue_foul'] ?? 0 }}" min="0"
+                                                    max="3"
+                                                    class="w-full px-2 py-1 text-center border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 blue-foul">
+                                            </td>
+                                            <td class="p-3 font-bold text-blue-500">
                                                 <span
-                                                    class="total-red">{{ $roundScores[$round]['total_red'] ?? 0 }}</span>
-                                                <input type="hidden" name="scores[{{ $round }}][total_red]"
-                                                    class="hidden-total-red"
-                                                    value="{{ $roundScores[$round]['total_red'] ?? 0 }}">
-                                            </td>
-                                            <td class="px-4 py-2 text-white bg-blue-500 border result-blue">
-                                                <span
-                                                    class="total-blue">{{ $roundScores[$round]['total_blue'] ?? 0 }}</span>
-                                                <input type="hidden" name="scores[{{ $round }}][total_blue]"
-                                                    class="hidden-total-blue"
-                                                    value="{{ $roundScores[$round]['total_blue'] ?? 0 }}">
+                                                    class="blue-score">{{ $roundScores[$round]['blue_score'] ?? 0 }}</span>
+                                                <input type="hidden" name="scores[{{ $round }}][blue_score]"
+                                                    value="{{ $roundScores[$round]['blue_score'] ?? 0 }}"
+                                                    class="hidden-blue-score">
                                             </td>
                                         </tr>
                                     @endfor
 
                                 </tbody>
-
                             </table>
+
+
                             <!-- Submit Button -->
-                            <div class="flex justify-center mt-8">
+                            <div class="flex justify-center mt-12">
                                 <button type="submit"
                                     class="px-8 py-3 text-sm font-bold text-white uppercase transition duration-300 border bg-slate-950 border-slate-950 hover:bg-white hover:text-slate-950">
                                     Save Scores
                                 </button>
                             </div>
-
                         </form>
-
                     </div>
+
                 </section>
             </main>
         @endif
@@ -182,36 +212,78 @@
 
 
 <script>
-    function calculateResults() {
+    function calculateScores() {
         const rows = document.querySelectorAll("#scoreTable tbody tr");
 
         rows.forEach(row => {
-            const damageRed = parseFloat(row.querySelector('.damage-red').value) || 0;
-            const damageBlue = parseFloat(row.querySelector('.damage-blue').value) || 0;
-            const knockRed = parseFloat(row.querySelector('.knock-red').value) || 0;
-            const knockBlue = parseFloat(row.querySelector('.knock-blue').value) || 0;
-            const penaltyRed = parseFloat(row.querySelector('.penalty-red').value) || 0;
-            const penaltyBlue = parseFloat(row.querySelector('.penalty-blue').value) || 0;
+            const redPoint = parseInt(row.querySelector(".red-point").value) || 0;
+            const redKD = parseInt(row.querySelector(".red-kd").value) || 0;
+            const redDamage = parseInt(row.querySelector(".red-damage").value) || 0;
+            const redFoul = parseInt(row.querySelector(".red-foul").value) || 0;
 
-            // Perhitungan Total Skor
-            const scoreRed = Math.max(damageRed - knockRed - penaltyRed, 0);
-            const scoreBlue = Math.max(damageBlue - knockBlue - penaltyBlue, 0);
+            const bluePoint = parseInt(row.querySelector(".blue-point").value) || 0;
+            const blueKD = parseInt(row.querySelector(".blue-kd").value) || 0;
+            const blueDamage = parseInt(row.querySelector(".blue-damage").value) || 0;
+            const blueFoul = parseInt(row.querySelector(".blue-foul").value) || 0;
 
-            // Tampilkan skor di dalam span
-            row.querySelector('.total-red').innerText = scoreRed.toFixed(1);
-            row.querySelector('.total-blue').innerText = scoreBlue.toFixed(1);
+            // Check if all values are 0
+            const isRedEmpty = redPoint === 0 && redKD === 0 && redDamage === 0 && redFoul === 0;
+            const isBlueEmpty = bluePoint === 0 && blueKD === 0 && blueDamage === 0 && blueFoul === 0;
 
-            // Update nilai input hidden
-            row.querySelector('.hidden-total-red').value = scoreRed.toFixed(1);
-            row.querySelector('.hidden-total-blue').value = scoreBlue.toFixed(1);
+            if (isRedEmpty && isBlueEmpty) {
+                // Set default scores to 0 if all inputs are empty
+                row.querySelector(".red-score").innerText = "0.0";
+                row.querySelector(".blue-score").innerText = "0.0";
+                row.querySelector(".hidden-red-score").value = "0.0";
+                row.querySelector(".hidden-blue-score").value = "0.0";
+                return;
+            }
+
+            let redScore = 9,
+                blueScore = 9;
+
+            // Compare Points
+            if (redPoint > bluePoint) {
+                redScore = 10;
+            } else if (bluePoint > redPoint) {
+                blueScore = 10;
+            } else {
+                // Compare KD if Points are Equal
+                if (redKD > blueKD) {
+                    redScore = 10;
+                } else if (blueKD > redKD) {
+                    blueScore = 10;
+                }
+            }
+
+            // Apply Damage Adjustment
+            blueScore -= redDamage;
+            redScore -= blueDamage;
+
+            // Apply Foul Adjustment
+            redScore -= redFoul;
+            blueScore -= blueFoul;
+
+            // Prevent Negative Scores
+            redScore = Math.max(redScore, 0);
+            blueScore = Math.max(blueScore, 0);
+
+            // Update Scores in Table
+            row.querySelector(".red-score").innerText = redScore.toFixed(1);
+            row.querySelector(".blue-score").innerText = blueScore.toFixed(1);
+
+            // Update Hidden Input Values
+            row.querySelector(".hidden-red-score").value = redScore.toFixed(1);
+            row.querySelector(".hidden-blue-score").value = blueScore.toFixed(1);
         });
     }
 
-    // Jalankan fungsi perhitungan setiap kali input berubah
-    document.querySelectorAll("input").forEach(input => {
-        input.addEventListener("input", calculateResults);
+
+    // Add Event Listeners to Inputs
+    document.querySelectorAll("#scoreTable input").forEach(input => {
+        input.addEventListener("input", calculateScores);
     });
 
-    // Jalankan sekali saat halaman dimuat
-    calculateResults();
+    // Initial Calculation
+    calculateScores();
 </script>

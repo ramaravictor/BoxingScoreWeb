@@ -29,17 +29,18 @@ class RoomController extends Controller
         $defaultScores = [];
         for ($round = 1; $round <= 5; $round++) {
             $defaultScores[$round] = [
-                'damage_red' => $roundScores[$round]->damage_red ?? 0,
-                'damage_blue' => $roundScores[$round]->damage_blue ?? 0,
-                'knock_red' => $roundScores[$round]->knock_red ?? 0,
-                'knock_blue' => $roundScores[$round]->knock_blue ?? 0,
-                'penalty_red' => $roundScores[$round]->penalty_red ?? 0,
-                'penalty_blue' => $roundScores[$round]->penalty_blue ?? 0,
-                'total_red' => $roundScores[$round]->total_red ?? 0,
-                'total_blue' => $roundScores[$round]->total_blue ?? 0,
+                'red_point' => $roundScores[$round]->red_point ?? 0,
+                'blue_point' => $roundScores[$round]->blue_point ?? 0,
+                'red_kd' => $roundScores[$round]->red_kd ?? 0,
+                'blue_kd' => $roundScores[$round]->blue_kd ?? 0,
+                'red_damage' => $roundScores[$round]->red_damage ?? 0,
+                'blue_damage' => $roundScores[$round]->blue_damage ?? 0,
+                'red_foul' => $roundScores[$round]->red_foul ?? 0,
+                'blue_foul' => $roundScores[$round]->blue_foul ?? 0,
+                'red_score' => $roundScores[$round]->red_score ?? 0,
+                'blue_score' => $roundScores[$round]->blue_score ?? 0,
             ];
         }
-
         $finalScoreExists = FinalScore::where('room_id', $id)->exists(); // Cek apakah final score ada
 
         return view('rooms', [

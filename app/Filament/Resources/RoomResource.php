@@ -48,10 +48,27 @@ class RoomResource extends Resource
                 // Dropdown untuk Weight Class
                 Select::make('weight_class')
                     ->label('Weight Class')
-                    ->options(Fighter::pluck('weight_class', 'weight_class')->unique()->toArray()) // Mengambil data unik dari Fighter
                     ->required()
-                    ->reactive() // Memicu reaktivitas saat nilai berubah
-                    ->dehydrateStateUsing(fn ($state) => $state), // Menyimpan nilai terpilih
+                    ->options([
+                        'minimumweight' => 'Minimumweight, 105 pounds (48 kg)',
+                        'light_flyweight' => 'Light Flyweight, 108 pounds (49 kg)',
+                        'flyweight' => 'Flyweight, 112 pounds (51 kg)',
+                        'super_flyweight' => 'Super Flyweight, 115 pounds (52 kg)',
+                        'bantamweight' => 'Bantamweight, 118 pounds (53.5 kg)',
+                        'super_bantamweight' => 'Super Bantamweight, 122 pounds (55 kg)',
+                        'featherweight' => 'Featherweight, 126 pounds (57 kg)',
+                        'super_featherweight' => 'Super Featherweight, 130 pounds (59 kg)',
+                        'lightweight' => 'Lightweight, 135 pounds (61 kg)',
+                        'super_lightweight' => 'Super Lightweight, 140 pounds (63.5 kg)',
+                        'welterweight' => 'Welterweight, 147 pounds (67 kg)',
+                        'super_welterweight' => 'Super Welterweight, 154 pounds (70 kg)',
+                        'middleweight' => 'Middleweight, 160 pounds (72.5 kg)',
+                        'super_middleweight' => 'Super Middleweight, 168 pounds (76 kg)',
+                        'light_heavyweight' => 'Light Heavyweight, 175 pounds (79 kg)',
+                        'cruiserweight' => 'Cruiserweight, 200 pounds (91 kg)',
+                        'heavyweight' => 'Heavyweight, unlimited',
+                    ])
+                    ->placeholder('Select a weight class'),
 
                 // Fighter Select untuk Red Corner
                 Select::make('red_corner_id')

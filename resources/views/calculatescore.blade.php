@@ -89,16 +89,17 @@
                                 <td class="px-4 py-2 border border-slate-950">Round {{ $round }}</td>
                                 @foreach ($judges as $judge)
                                     @php
+                                        // Ambil skor untuk ronde saat ini dan juri tertentu
                                         $score = $roundScores
                                             ->where('round_number', $round)
                                             ->where('user_id', $judge->id)
                                             ->first();
                                     @endphp
                                     <td class="px-4 py-2 text-white bg-red-500 border border-slate-950">
-                                        {{ $score->total_red ?? 'N/A' }}
+                                        {{ number_format($score->red_score ?? 0, 2) }}
                                     </td>
                                     <td class="px-4 py-2 text-white bg-blue-500 border border-slate-950">
-                                        {{ $score->total_blue ?? 'N/A' }}
+                                        {{ number_format($score->blue_score ?? 0, 2) }}
                                     </td>
                                 @endforeach
                             </tr>
@@ -108,17 +109,25 @@
                             <td class="px-4 py-2 border border-slate-950">Total</td>
                             @foreach ($judges as $judge)
                                 @php
-                                    $totalRed = $roundScores->where('user_id', $judge->id)->sum('total_red');
-                                    $totalBlue = $roundScores->where('user_id', $judge->id)->sum('total_blue');
+                                    // Perhitungan Total Skor dengan looping ronde untuk memastikan akurasi
+                                    $totalRed = $roundScores->where('user_id', $judge->id)->sum('red_score');
+                                    $totalBlue = $roundScores->where('user_id', $judge->id)->sum('blue_score');
+
+                                    // Validasi data yang digunakan untuk debugging jika ada kesalahan
+                                    $debugRounds = $roundScores->where('user_id', $judge->id)->groupBy('round_number');
                                 @endphp
                                 <td class="px-4 py-2 text-white bg-red-500 border border-slate-950">
-                                    {{ $totalRed }}
+                                    {{ number_format($totalRed, 2) }}
                                 </td>
                                 <td class="px-4 py-2 text-white bg-blue-500 border border-slate-950">
-                                    {{ $totalBlue }}</td>
+                                    {{ number_format($totalBlue, 2) }}
+                                </td>
                             @endforeach
                         </tr>
                     </tbody>
+
+
+
                 </table>
             </form>
         </div>
@@ -215,31 +224,32 @@
                     <!-- Red Team Card -->
                     <div class="w-full max-w-xs p-6 text-center bg-gray-100 rounded-lg shadow-lg">
                         <h3 class="text-lg font-bold text-gray-700 uppercase">SCORE:</h3>
-                        <p class="my-2 text-4xl font-bold text-red-500">{{ $averageRed }}</p>
+                        <p class="my-2 text-4xl font-bold text-red-500">{{ number_format($averageRed, 2) }}</p>
                         <div class="text-center text-gray-700">
-                            <p class="text-sm font-semibold">Total Damage: <span
-                                    class="text-red-500">{{ $totalDamage['red'] }}</span></p>
-                            <p class="text-sm font-semibold">Total Knock Down: <span
-                                    class="text-red-500">{{ $totalKnockDown['red'] }}</span></p>
-                            <p class="text-sm font-semibold">Total Penalty: <span
-                                    class="text-red-500">{{ $totalPenalty['red'] }}</span></p>
+                            <p class="text-sm font-semibold">Damage: <span
+                                    class="text-red-500">{{ $maxDamage['red'] }}</span></p>
+                            <p class="text-sm font-semibold">Knock Down: <span
+                                    class="text-red-500">{{ $maxKnockDown['red'] }}</span></p>
+                            <p class="text-sm font-semibold">Foul: <span
+                                    class="text-red-500">{{ $maxFoul['red'] }}</span></p>
                         </div>
                     </div>
 
                     <!-- Blue Team Card -->
                     <div class="w-full max-w-xs p-6 text-center bg-gray-100 rounded-lg shadow-lg">
                         <h3 class="text-lg font-bold text-gray-700 uppercase">SCORE:</h3>
-                        <p class="my-2 text-4xl font-bold text-blue-500">{{ $averageBlue }}</p>
+                        <p class="my-2 text-4xl font-bold text-blue-500">{{ number_format($averageBlue, 2) }}</p>
                         <div class="text-center text-gray-700">
-                            <p class="text-sm font-semibold">Total Damage: <span
-                                    class="text-blue-500">{{ $totalDamage['blue'] }}</span></p>
-                            <p class="text-sm font-semibold">Total Knock Down: <span
-                                    class="text-blue-500">{{ $totalKnockDown['blue'] }}</span></p>
-                            <p class="text-sm font-semibold">Total Penalty: <span
-                                    class="text-blue-500">{{ $totalPenalty['blue'] }}</span></p>
+                            <p class="text-sm font-semibold">Damage: <span
+                                    class="text-blue-500">{{ $maxDamage['blue'] }}</span></p>
+                            <p class="text-sm font-semibold">Knock Down: <span
+                                    class="text-blue-500">{{ $maxKnockDown['blue'] }}</span></p>
+                            <p class="text-sm font-semibold">Foul: <span
+                                    class="text-blue-500">{{ $maxFoul['blue'] }}</span></p>
                         </div>
                     </div>
                 </div>
+
 
                 <!-- Submit Button -->
                 <div class="flex justify-center mt-8">

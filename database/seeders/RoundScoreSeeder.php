@@ -9,38 +9,46 @@ class RoundScoreSeeder extends Seeder
 {
     public function run()
     {
-        // Define room_id and user_ids (3 judges)
+        // Room ID dan user IDs (juri)
         $room_id = 1;
         $judges = [1, 2, 3]; // User IDs of the judges
 
-        // Loop for 5 rounds
+        // Loop untuk 5 ronde
         for ($round = 1; $round <= 5; $round++) {
             foreach ($judges as $judge_id) {
-                // Generate random scores for red and blue
-                $damage_red = rand(8, 10);
-                $damage_blue = rand(8, 10);
-                $knock_red = rand(0, 1);
-                $knock_blue = rand(0, 1);
-                $penalty_red = rand(0, 1);
-                $penalty_blue = rand(0, 1);
+                // Pastikan skor dihitung berdasarkan aturan penilaian
+                $red_point = rand(7, 10); // Point harus 7-10
+                $blue_point = rand(7, 10); // Point harus 7-10
+                $red_kd = rand(0, 1); // Knock Down
+                $blue_kd = rand(0, 1); // Knock Down
+                $red_damage = rand(0, 3); // Damage
+                $blue_damage = rand(0, 2); // Damage
+                $red_foul = rand(0, 1); // Foul
+                $blue_foul = rand(0, 1); // Foul
 
-                // Calculate total scores
-                $total_red = max(0, $damage_red - $knock_red - $penalty_red);
-                $total_blue = max(0, $damage_blue - $knock_blue - $penalty_blue);
+                // Hitung skor dengan batas maksimum 10
+                $red_score = min(10, $red_point - $blue_damage - $red_foul);
+                $blue_score = min(10, $blue_point - $red_damage - $blue_foul);
 
-                // Insert data into the database
+                // Jangan biarkan skor negatif
+                $red_score = max(0, $red_score);
+                $blue_score = max(0, $blue_score);
+
+                // Masukkan ke database
                 RoundScore::create([
                     'user_id' => $judge_id,
                     'room_id' => $room_id,
                     'round_number' => $round,
-                    'damage_red' => $damage_red,
-                    'damage_blue' => $damage_blue,
-                    'knock_red' => $knock_red,
-                    'knock_blue' => $knock_blue,
-                    'penalty_red' => $penalty_red,
-                    'penalty_blue' => $penalty_blue,
-                    'total_red' => $total_red,
-                    'total_blue' => $total_blue,
+                    'red_point' => $red_point,
+                    'blue_point' => $blue_point,
+                    'red_kd' => $red_kd,
+                    'blue_kd' => $blue_kd,
+                    'red_damage' => $red_damage,
+                    'blue_damage' => $blue_damage,
+                    'red_foul' => $red_foul,
+                    'blue_foul' => $blue_foul,
+                    'red_score' => $red_score,
+                    'blue_score' => $blue_score,
                 ]);
             }
         }
